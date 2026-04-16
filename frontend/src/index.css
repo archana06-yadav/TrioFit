@@ -138,6 +138,9 @@ body {
   /* Layout */
   min-height: 65px;
   
+  line-height: normal;
+padding: 10px 30px;
+
   padding: 0 2.5rem;
   display: flex;
   justify-content: space-between;
@@ -159,24 +162,18 @@ body {
 
 
 .logo {
-  /* Positioning: Moves it up and left */
-  margin-top: -5px;     /* Negative value pulls it UP */
-  margin-left: -10px;   /* Negative value pulls it LEFT */
-  margin-right: auto;   /* Keeps it anchored to the left side */
+  margin-right: auto;
 
-  /* The "Pretty" Styling */
-  font-family: 'Playfair Display', 'Georgia', serif; 
-  font-size: 1.9rem;    /* Balanced size */
+  display: flex;              /* ✅ ADD THIS */
+  align-items: center;        /* ✅ CENTER vertically */
+  
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: 1.9rem;
   font-weight: 700;
   letter-spacing: -0.5px;
-  
-  /* Color & Cleanup */
+
   color: var(--text);
   text-decoration: none;
-  cursor: pointer;
-  
-  /* Ensures it doesn't get cut off if the header is very slim */
-  display: inline-block; 
 }
 
 .header nav {
@@ -298,10 +295,9 @@ html, body {
     gap: 0; /* Remove gap to keep it tight */
   }
   .logo h2 {
-    font-size: 1.3rem; /* Slightly smaller logo */
-    margin: 0;         /* Remove default H2 margins that stretch height */
-    line-height: 1;    /* Tighten line height */
-  }
+  margin: 0;        /* ❌ removes extra top/bottom space */
+  line-height: 1;   /* ✅ keeps it tight */
+}
 
   .header nav {
     /* Critical: Change position to fixed for the sidebar effect */
@@ -353,7 +349,7 @@ html, body {
   width: 95%;            /* Slightly narrowed for a modern look */
   max-width: 1400px;     /* Prevents it from getting too wide on huge monitors */
   height: 70vh;          /* 90vh is often too tall for e-commerce (pushes products too far down) */
-  margin: 2rem auto;     /* Adds margin at the top and centers the slider */
+   margin: 90px auto 2rem auto;  /* Adds margin at the top and centers the slider */
   position: relative;
   overflow: hidden;
   border-radius: 20px;
@@ -434,7 +430,7 @@ html, body {
 /* ===============================
    POPULAR SLIDER
 ================================ */
-popular-slider-section {
+.popular-slider-section {
   /* Glassmorphism Base */
   background: var(--glass-card); /* Using the same variable from your header */
   backdrop-filter: blur(15px) saturate(160%);
@@ -442,7 +438,7 @@ popular-slider-section {
   
   /* Border & Shape */
   border: 1px solid var(--header-border);
-  border-radius: 24.px; /* Softer, more modern corners */
+  border-radius: 24px; /* Softer, more modern corners */
   padding: 2rem 1rem;
   margin: 3rem auto;
   max-width: 96%;      /* Matches the header width for symmetry */
@@ -1209,7 +1205,7 @@ popular-slider-section {
 .auth-container {
   position: relative;
   max-width: 400px;
-  margin: 3rem auto;
+  margin: 120px auto;
   border-radius: 20px;
   overflow: hidden; /* IMPORTANT */
 }
@@ -1515,7 +1511,7 @@ popular-slider-section {
 .checkout-page {
   max-width: 1100px;
   width: 95%;
-  margin: 2rem auto;
+  margin: 120px auto;
   background: var(--panel-bg);
   border: 1px solid var(--panel-border);
   border-radius: 18px;
@@ -1536,6 +1532,7 @@ popular-slider-section {
   grid-template-columns: 1.7fr 1fr;
   gap: 1.4rem;
 }
+
 
 .product-details-section,
 .address-section,
@@ -2168,7 +2165,7 @@ h1 {
 .c {
   max-width: 900px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 120px 2rem 2rem;
   font-family: "Inter", system-ui, sans-serif;
 }
 
@@ -2430,7 +2427,7 @@ h1 {
             max-width: 900px;
             margin: 0 auto;
             background: var(--bg);
-            padding: 40px;
+            padding-top: 120px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
@@ -2662,7 +2659,7 @@ h1 {
         .job-info p { margin: 5px 0 0; opacity: 0.7; font-size: 0.9rem; }
 
         .apply-btn {
-            background-color: var(--lavender);
+            background-color: var(--pink);
             color: var(--text);
             text-decoration: none;
             padding: 10px 25px;
@@ -2760,14 +2757,29 @@ h1 {
 
         .container {
             max-width: 900px;
-            margin: 50px auto;
+            margin: 120px auto;
             background-color: var(--white);
             padding: 50px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             color: var(--text);
+            
         }
-.container h1 { color: var(--text); font-size: 2.5rem; margin-bottom: 10px; }
+.container h1 { color: var(--text);  font-family: "Inter", system-ui, sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
+
+  /* center */
+  text-align: center;
+
+  /* premium gradient text */
+  background: linear-gradient(135deg, #1e293b, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+}
         .bold-divider {
             height: 4px;
             background-color: var(--lavender);
@@ -2777,7 +2789,10 @@ h1 {
             width: 150px;
         }
 
-        h2 { color: var(--text); margin-top: 40px; }
+        h2 { color: var(--text); 
+          text-align: center;
+          
+         }
 
         .mission-grid {
             display: grid;
