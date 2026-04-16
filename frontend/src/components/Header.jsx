@@ -52,6 +52,7 @@ const Header = () => {
     <header className="header">
       <Link to="/" className="logo" style={{ textDecoration: 'none' }}>
         <h2>TrioFit</h2>
+        
       </Link>
 
       {/* Hamburger Menu Toggle */}

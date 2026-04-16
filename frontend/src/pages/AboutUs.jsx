@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 const AboutUs = () => {
   return (
     <>
-      <div className="hero-section">
-        <h1>Our Story</h1>
-        <p>Blending the elegance of the past with the tech of the future.</p>
-      </div>
+     
 
       <div className="container">
         <h2>Who We Are</h2>

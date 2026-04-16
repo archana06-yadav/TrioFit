@@ -4,12 +4,7 @@ import { Link } from "react-router-dom";
 const CareerOpportunities = () => {
   return (
     <>
-      <div className="header">
-        <Link to="/" className="back-link">← Back to Store</Link>
-        <h1>Join the TrioFit Evolution</h1>
-        <p>We’re looking for innovators, designers, and tech-enthusiasts.</p>
-      </div>
-
+     
       <div className="container">
         <h2>Open Positions</h2>
         <hr className="bold-divider" />
