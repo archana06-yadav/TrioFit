@@ -1,17 +1,13 @@
 // central product data using import.meta URLs for assets
 const discountedProductIds = new Set([1, 5, 12, 15, 22, 26]);
 
-const applyDiscount = (products) =>
-  products.map((product) =>
-    discountedProductIds.has(product.id)
-      ? {
-          ...product,
-          isDiscounted: true,
-          discountedPrice: Number((product.price * 0.8).toFixed(2)),
-          discount: "20% OFF",
-        }
-      : product
-  );
+const applyDiscount = (products, discountPercent) =>
+  products.map((product) => ({
+    ...product,
+    isDiscounted: true,
+    discountedPrice: Number((product.price * (1 - discountPercent / 100)).toFixed(2)),
+    discount: `${discountPercent}% OFF`,
+  }));
 
 const menDiscountedProductIds = new Set([99, 100, 109, 110, 119, 120]);
 
@@ -506,9 +502,8 @@ const kidEthnicProductsData = [
         ],
     },
 ];
-export const kidEthnicProducts = applyKidBoysDiscount(kidEthnicProductsData);
+export const kidEthnicProducts = applyDiscount(kidEthnicProductsData, 30);
 const kidJeansProductsData = [
-
     {
         id: 41,
         name: "Boys Relaxed Fit Woven Cargo Trousers",
@@ -564,9 +559,8 @@ const kidJeansProductsData = [
         ],
     },
 ];
-export const kidJeansProducts = applyKidBoysDiscount(kidJeansProductsData);
+export const kidJeansProducts = applyDiscount(kidJeansProductsData, 30);
 const kidShirtsProductsData = [
-
 {
     id: 46,
     name: "Kids black and white cotton chequered casual shirt",
@@ -678,6 +672,7 @@ const kidShirtsProductsData = [
 ];
 export const kidShirtsProducts = applyKidBoysDiscount(kidShirtsProductsData);
 
+export const kidShirtsProducts = applyDiscount(kidShirtsProductsData, 30);
 const kidTShirtsProductsData = [
 {
     id: 56,
@@ -785,7 +780,7 @@ const kidTShirtsProductsData = [
     ],
 },
 ];
-export const kidTShirtsProducts = applyKidBoysDiscount(kidTShirtsProductsData);
+export const kidTShirtsProducts = applyDiscount(kidTShirtsProductsData, 30);
 const kidGirlsBottomProductsData = [
   {
     id: 66,
@@ -903,7 +898,7 @@ const kidGirlsBottomProductsData = [
     ],
   },
 ];
-export const kidGirlsBottomProducts = applyKidGirlsDiscount(kidGirlsBottomProductsData);
+export const kidGirlsBottomProducts = applyDiscount(kidGirlsBottomProductsData, 50);
 const kidGirlsDressProductsData = [
   {
     id: 77,
@@ -979,7 +974,7 @@ const kidGirlsDressProductsData = [
     ],
   },
 ];
-export const kidGirlsDressProducts = applyKidGirlsDiscount(kidGirlsDressProductsData);
+export const kidGirlsDressProducts = applyDiscount(kidGirlsDressProductsData, 50);
 const kidGirlsEthnicProductsData = [
   {
     id: 84,
@@ -1064,7 +1059,7 @@ const kidGirlsEthnicProductsData = [
     ],
   },
 ];
-export const kidGirlsEthnicProducts = applyKidGirlsDiscount(kidGirlsEthnicProductsData);
+export const kidGirlsEthnicProducts = applyDiscount(kidGirlsEthnicProductsData, 50);
 const kidGirlsTopProductsData = [
   {
     id: 92,
@@ -1138,7 +1133,7 @@ const kidGirlsTopProductsData = [
     ],
   },
 ];
-export const kidGirlsTopProducts = applyKidGirlsDiscount(kidGirlsTopProductsData);
+export const kidGirlsTopProducts = applyDiscount(kidGirlsTopProductsData, 50);
 const menBottomProductsData = [
   {
     id: 99,
@@ -1251,8 +1246,7 @@ const menBottomProductsData = [
     ],
   },
 ];
-export const menBottomProducts = applyMenDiscount(menBottomProductsData);
-
+export const menBottomProducts = applyDiscount(menBottomProductsData, 60);
 const menEthnicProductsData = [
   {
     id: 109,
@@ -1365,8 +1359,7 @@ const menEthnicProductsData = [
     ],
   },
 ];
-export const menEthnicProducts = applyMenDiscount(menEthnicProductsData);
-
+export const menEthnicProducts = applyDiscount(menEthnicProductsData, 60);
 const menTopProductsData = [
   {
     id: 119,
@@ -1479,5 +1472,5 @@ const menTopProductsData = [
     ],
   },
 ];
-export const menTopProducts = applyMenDiscount(menTopProductsData);
+export const menTopProducts = applyDiscount(menTopProductsData, 60);
 
