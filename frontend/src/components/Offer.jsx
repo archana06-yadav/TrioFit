@@ -7,6 +7,12 @@ import offer4 from "../assets/images/offer/offer4.png";
 
 const Offer = () => {
   const images = [offer1, offer2, offer3, offer4];
+  const linkTargets = [
+    "#fiftypercentoff",
+    "#sixtypercentoff",
+    "#twentypercentoff",
+    "#thirtypercentoff",
+  ];
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -23,11 +29,13 @@ const Offer = () => {
   return (
     <div className="offer-slider">
 
-      <img
-        src={images[current]}
-        alt="offer"
-        className="slider-image"
-      />
+      <a href={linkTargets[current]}>
+        <img
+          src={images[current]}
+          alt="offer"
+          className="slider-image"
+        />
+      </a>
 
       {/* Arrows */}
       <button className="arrow left" onClick={prevSlide}>

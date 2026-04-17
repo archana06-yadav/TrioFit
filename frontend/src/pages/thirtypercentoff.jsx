@@ -1,17 +1,18 @@
 import React from 'react'
 import ProductCard from '../components/ProductCard';
-import { topProducts, bottomProducts, ethnicProducts } from '../data/products';
+import { kidEthnicProducts, kidJeansProducts, kidShirtsProducts, kidTShirtsProducts } from '../data/products';
 
-const twentypercentoff = () => {
+const thirtypercentoff = () => {
   const discountedProducts = [
-    ...topProducts,
-    ...bottomProducts,
-    ...ethnicProducts,
+    ...kidEthnicProducts,
+    ...kidJeansProducts,
+    ...kidShirtsProducts,
+    ...kidTShirtsProducts,
   ].filter((product) => product.isDiscounted);
 
   return (
-    <section id="twentypercentoff" className="catalog-section">
-      <h3 className='mini-title'>🎉 Special Discount Offers - 20% OFF</h3>
+    <section id="thirtypercentoff" className="catalog-section">
+      <h3 className='mini-title'>🎉 Special Discount Offers - 30% OFF</h3>
       <div className="products">
         {discountedProducts.length > 0 ? (
           discountedProducts.map((p) => (
@@ -25,4 +26,4 @@ const twentypercentoff = () => {
   )
 }
 
-export default twentypercentoff
+export default thirtypercentoff
