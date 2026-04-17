@@ -672,7 +672,7 @@ const kidShirtsProductsData = [
 ];
 export const kidShirtsProducts = applyKidBoysDiscount(kidShirtsProductsData);
 
-export const kidShirtsProducts = applyDiscount(kidShirtsProductsData, 30);
+
 const kidTShirtsProductsData = [
 {
     id: 56,
