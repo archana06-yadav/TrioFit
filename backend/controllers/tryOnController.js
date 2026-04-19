@@ -1,13 +1,16 @@
 import axios from 'axios';
 import FormData from 'form-data';
 
-const processTryOn = async (userImageBuffer, userImageMimeType, productName) => {
+const processTryOn = async (userImageBuffer, userImageMimeType, productImageUrl, productName) => {
   const openAiKey = process.env.OPENAI_API_KEY;
   if (!openAiKey) {
     throw new Error('Missing OPENAI_API_KEY in backend environment');
   }
 
-  const prompt = `A realistic photograph of the person in this image wearing the selected clothing item: ${productName}. The output should show the garment naturally applied to the user's body in a polished, photo-real style.`;
+  let prompt = `A realistic photograph of the person in this image wearing the selected clothing item: ${productName}. The output should show the garment naturally applied to the user's body in a polished, photo-real style.`;
+  if (productImageUrl) {
+    prompt += ` Use the product reference image at ${productImageUrl} to better match the style and design.`;
+  }
 
   const formData = new FormData();
   formData.append('model', 'gpt-image-1');
@@ -56,6 +59,7 @@ const tryOnController = {
       const result = await processTryOn(
         userImage.buffer,
         userImage.mimetype,
+        productImage,
         productName
       );
 
