@@ -14,9 +14,7 @@ const sendResetPasswordEmail = async ({ email, fullName, resetUrl }) => {
   const fromEmail = process.env.RESET_FROM_EMAIL || process.env.RESEND_FROM_EMAIL;
 
   if (!resendApiKey || !fromEmail) {
-    console.log("Password reset email is not configured.");
-    console.log("Reset link for", email, ":", resetUrl);
-    return { delivered: false };
+    throw new Error("Password reset email is not configured");
   }
 
   const response = await fetch("https://api.resend.com/emails", {
@@ -199,25 +197,18 @@ router.post("/forgot-password", async (req, res) => {
     user.resetPasswordExpires = new Date(Date.now() + RESET_TOKEN_TTL_MS);
     await user.save();
 
-    const emailResult = await sendResetPasswordEmail({
+    await sendResetPasswordEmail({
       email: user.email,
       fullName: user.fullName,
       resetUrl,
     });
 
-    const response = {
+    res.json({
       message: "If an account exists with this email, a reset link has been sent.",
-    };
-
-    if (!emailResult.delivered) {
-      response.resetUrl = resetUrl;
-      response.note = "Email delivery is not configured yet, so the reset link is returned for development.";
-    }
-
-    res.json(response);
+    });
   } catch (error) {
     console.error("Forgot password error:", error);
-    res.status(500).json({ message: "Unable to process forgot password request" });
+    res.status(500).json({ message: "Unable to send reset email right now" });
   }
 });
 

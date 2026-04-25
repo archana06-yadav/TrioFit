@@ -8,14 +8,12 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const [resetUrl, setResetUrl] = useState("");
 
   const handleSubmit = async () => {
     try {
       setLoading(true);
       setError("");
       setMessage("");
-      setResetUrl("");
 
       const { data } = await axios.post(
         "http://localhost:5000/api/auth/forgot-password",
@@ -23,7 +21,6 @@ const ForgotPassword = () => {
       );
 
       setMessage(data.message);
-      setResetUrl(data.resetUrl || "");
     } catch (err) {
       setError(err.response?.data?.message || "Unable to send reset link");
     } finally {
@@ -57,12 +54,6 @@ const ForgotPassword = () => {
           <button onClick={handleSubmit} disabled={loading || !email}>
             {loading ? "Sending..." : "Send Reset Link"}
           </button>
-
-          {resetUrl && (
-            <p className="auth-helper-text">
-              Dev link: <a href={resetUrl}>{resetUrl}</a>
-            </p>
-          )}
 
           <div className="auth-links">
             <Link to="/login">Back to login</Link>
