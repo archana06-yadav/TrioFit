@@ -120,12 +120,19 @@ const SeeMorePage = () => {
     return <p className="page-feedback">Product not found.</p>;
   }
 
+  const hasDiscount = Boolean(product.isDiscounted || product.discountedPrice);
+  const finalPrice = hasDiscount ? Number(product.discountedPrice) || Number(product.price) || 0 : Number(product.price) || 0;
+
   const handleAddToCart = () => {
     dispatch(
       addToCart({
         id: product.id || product._id,
         name: product.name,
-        price: product.price,
+        price: finalPrice,
+        originalPrice: Number(product.price) || finalPrice,
+        discountedPrice: hasDiscount ? finalPrice : undefined,
+        isDiscounted: hasDiscount,
+        discount: product.discount || "",
         selectedVariant: main,
         image: product.image,
         size: selectedSize,
@@ -143,7 +150,11 @@ const SeeMorePage = () => {
           id: product.id || product._id,
           name: product.name,
           image: main || product.image,
-          price: product.price,
+          price: finalPrice,
+          originalPrice: Number(product.price) || finalPrice,
+          discountedPrice: hasDiscount ? finalPrice : undefined,
+          isDiscounted: hasDiscount,
+          discount: product.discount || "",
           size: selectedSize,
           quantity,
         },
@@ -172,15 +183,7 @@ const SeeMorePage = () => {
     setTimeout(() => setShowReviewSuccess(false), 3000);
   };
   const price = Number(product.price) || 0;
-  const discountValue = product.discount
-    ? typeof product.discount === 'string'
-      ? parseFloat(product.discount) || 0
-      : Number(product.discount) || 0
-    : 0;
-
-  const hasDiscount = discountValue > 0;
-
-  const discountedPrice = hasDiscount ? (price - (price * discountValue) / 100).toFixed(2) : price.toFixed(2);
+  const discountedPrice = finalPrice.toFixed(2);
 
  return (
   <main className="see-more-page">
@@ -222,7 +225,7 @@ const SeeMorePage = () => {
                 fontSize: "16px",
               }}
             >
-              {discountValue}% OFF
+              {product.discount || "Discounted"}
             </p>
           </div>
         ) : (

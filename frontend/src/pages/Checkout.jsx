@@ -5,6 +5,7 @@ import axios from "axios";
 import { clearCart } from "../redux/cartSlice";
 
 const API_BASE_URL = "http://localhost:5000";
+const formatPrice = (value) => `Rs.${Number(value || 0)}`;
 
 const loadRazorpayScript = () =>
   new Promise((resolve) => {
@@ -54,6 +55,9 @@ const Checkout = () => {
 
   const [itemDetails, setItemDetails] = useState(() => {
     if (locationProduct) {
+      const effectivePrice = Number(locationProduct.discountedPrice ?? locationProduct.price) || 0;
+      const originalPrice = Number(locationProduct.originalPrice ?? locationProduct.price) || effectivePrice;
+
       return [
         {
           productId: locationProduct.id,
@@ -61,20 +65,31 @@ const Checkout = () => {
           image: locationProduct.image,
           size: locationProduct.size || "M",
           quantity: Number(locationProduct.quantity) || 1,
-          price: Number(locationProduct.price) || 0,
+          price: effectivePrice,
+          originalPrice,
+          isDiscounted: originalPrice > effectivePrice || Boolean(locationProduct.isDiscounted),
+          discount: locationProduct.discount || "",
         },
       ];
     }
 
     if (cartItems.length > 0) {
-      return cartItems.map((item) => ({
-        productId: item.id,
-        productName: item.name,
-        image: item.selectedVariant || item.image,
-        size: item.size || "M",
-        quantity: item.quantity || 1,
-        price: item.price || 0,
-      }));
+      return cartItems.map((item) => {
+        const effectivePrice = Number(item.discountedPrice ?? item.price) || 0;
+        const originalPrice = Number(item.originalPrice ?? item.price) || effectivePrice;
+
+        return {
+          productId: item.id,
+          productName: item.name,
+          image: item.selectedVariant || item.image,
+          size: item.size || "M",
+          quantity: item.quantity || 1,
+          price: effectivePrice,
+          originalPrice,
+          isDiscounted: originalPrice > effectivePrice || Boolean(item.isDiscounted),
+          discount: item.discount || "",
+        };
+      });
     }
 
     return [];
@@ -271,7 +286,20 @@ const Checkout = () => {
               <img src={item.image} alt={item.productName} />
               <div className="product-card-content">
                 <strong>{item.productName}</strong>
-                <span>Price: ₹{item.price}</span>
+                <span>
+                  Price:{" "}
+                  {item.isDiscounted ? (
+                    <>
+                      <span style={{ textDecoration: "line-through", color: "#888", marginRight: "8px" }}>
+                        {formatPrice(item.originalPrice)}
+                      </span>
+                      <span style={{ color: "#27ae60", fontWeight: "bold" }}>{formatPrice(item.price)}</span>
+                      {item.discount ? <span style={{ color: "#e74c3c", marginLeft: "8px" }}>({item.discount})</span> : null}
+                    </>
+                  ) : (
+                    formatPrice(item.price)
+                  )}
+                </span>
                 <label>
                   Size
                   <select value={item.size} onChange={(e) => handleItemChange(idx, "size", e.target.value)}>
@@ -291,7 +319,7 @@ const Checkout = () => {
                     onChange={(e) => handleItemChange(idx, "quantity", e.target.value)}
                   />
                 </label>
-                <p>Total: ₹{item.price * item.quantity}</p>
+                <p>Total: {formatPrice(item.price * item.quantity)}</p>
               </div>
             </div>
           ))}
@@ -400,19 +428,19 @@ const Checkout = () => {
           <h3>5. Order Summary</h3>
           <div className="summary-row">
             <span>Product(s) total</span>
-            <span>₹{subtotal}</span>
+            <span>{formatPrice(subtotal)}</span>
           </div>
           <div className="summary-row">
             <span>Delivery charge</span>
-            <span>₹{deliveryCharge}</span>
+            <span>{formatPrice(deliveryCharge)}</span>
           </div>
           <div className="summary-row">
             <span>Discount</span>
-            <span>-₹{discount}</span>
+            <span>-{formatPrice(discount)}</span>
           </div>
           <div className="summary-total">
             <strong>Final amount</strong>
-            <strong>₹{totalPrice}</strong>
+            <strong>{formatPrice(totalPrice)}</strong>
           </div>
 
           {error && <div className="error-message">{error}</div>}
